@@ -1,23 +1,77 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import data from './data';
 
 function App() {
+   const [todos, setTodos] = useState(data.todos);
+   const [displayTodos, setDisplayTodos] = useState(data.todos)
+
+  function deleteTodo(id)  {
+    const filterTodo = todos.filter(e => e.id !== id)
+   setDisplayTodos(filterTodo)
+   setTodos(filterTodo);
+  } 
+
+  function deleteAll() {
+   setDisplayTodos([])
+   setTodos([])
+  }
+
+  function filterTodo(target) {
+    if(target == 'completed') {
+      let completedTodos = todos.filter(e => e.completed == true);
+      setDisplayTodos(completedTodos);
+    } else if(target == 'left') {
+      let leftTodos = todos.filter(e => e.completed == false);
+      setDisplayTodos(leftTodos);
+    } else {
+      setDisplayTodos(todos)
+    }
+  }
+  const handleChange = (id) => {
+    let updatedList = todos.map((todo) => {
+      if(todo.id === id){
+        return {
+          ...todo,
+         completed: true
+        }
+      }
+      return todo
+   })
+   setDisplayTodos([...updatedList])
+   setTodos([...updatedList])
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <div className='container'>
+       <h2 className='heading'>Todo List</h2>
+       <div className='d-flex flex-column flex-lg-row justify-content-between align-items-center m-2 m-lg-4'>
+       <div className='d-flex'>
+        <h3 className='mb-0'>Filter: </h3>
+        <button id="all" className="filter-button" onClick={(e) => filterTodo(e.target.id)}>All</button>
+        <button id="completed" className="filter-button" onClick={(e) => filterTodo(e.target.id)}>Completed</button>
+        <button id="left" className="filter-button" onClick={(e) => filterTodo(e.target.id)}>To do</button>
+        </div>
+        <div className='delete-all'>
+          <p className='mb-0'>Delete All</p>
+          <i className='fa fa-times' onClick={deleteAll}></i>
+        </div>
+        </div>
+        <p className='text-center'>{displayTodos.length}</p>
+        <div className='items'>
+        {displayTodos.length > 0 ? displayTodos.map(todo => {
+          return <div key={todo.id}>
+            <div className='todo-item'>
+            <input type="checkbox" className="todo-input" id={`todo-${todo.id}`} checked={todo.completed} onChange={() => handleChange(todo.id)}/>
+            <label htmlFor={`todo-${todo.id}`} className='item-name'>{todo.todo}</label>
+           <i className="delete-icon fa fa-trash" onClick={() => deleteTodo(todo.id)}></i>
+           </div>
+           <p>{todo.completed}</p>
+          </div>
+        }) : <p>No todos</p>}
+        </div>
+      </div>
     </div>
   );
 }
