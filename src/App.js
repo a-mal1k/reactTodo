@@ -14,8 +14,9 @@ function App() {
   } 
 
   function deleteAll() {
-   setDisplayTodos([])
-   setTodos([])
+    let leftTodos = displayTodos.filter(e => e.completed == false); 
+    setDisplayTodos(leftTodos);
+      setTodos(leftTodos)
   }
 
   function filterTodo(target) {
@@ -72,9 +73,9 @@ function App() {
         <button id="completed" className="filter-button" onClick={(e) => filterTodo(e.target.id)}>Completed</button>
         <button id="left" className="filter-button" onClick={(e) => filterTodo(e.target.id)}>To do</button>
         </div>
-        <div className='delete-all'>
-          <p className='mb-0'>Delete All</p>
-          <i className='fa fa-times' onClick={deleteAll}></i>
+        <div className='delete-all' role='button' onClick={deleteAll}>
+          <p className='mb-0'>Delete All Completed</p>
+          <i className='fa fa-times'></i>
         </div>
         </div>
         <form onSubmit={handleSubmit}>
