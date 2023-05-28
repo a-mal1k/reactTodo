@@ -26,7 +26,24 @@
   column-gap: 12px;
 }
 
- input {
+.todo-input {
+  width: 100%;
+  margin: 8px;
+  padding: 8px 12px;
+  background-color: aliceblue;
+  border: none;
+  border-radius: 5px;
+}
+.todo-input:focus {
+  border: none;
+  outline: none;
+}
+
+form{
+  display: flex;
+  align-items: center;
+}
+ .todo-check {
   padding: 0;
   height: initial;
   width: initial;
@@ -53,7 +70,7 @@ label:before {
   margin-right: 5px;
 }
 
-input:checked + label:after {
+.todo-check:checked + label:after {
   content: '';
   display: block;
   position: absolute;
@@ -66,7 +83,7 @@ input:checked + label:after {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
-input:checked + label {
+.todo-check:checked + label {
   text-decoration-line: line-through;
   color: rgb(71, 167, 167);
 }
@@ -81,6 +98,15 @@ input:checked + label {
   column-gap: 12px;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 0;
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .delete-all {
+    margin-top: 12px;
+    width: 100%;
+  }
 }
 
 .filter-button  {
@@ -101,6 +127,11 @@ input:checked + label {
   background-color: white;
   color: black;
    transition: all 0.7s ease;
+}
+
+form .filter-button {
+  width: 200px;
+  justify-content: center;
 }
 .delete-all:hover {
   border: 1px solid red;

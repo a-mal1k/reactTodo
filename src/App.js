@@ -5,6 +5,7 @@ import data from './data';
 function App() {
    const [todos, setTodos] = useState(data.todos);
    const [displayTodos, setDisplayTodos] = useState(data.todos)
+   const [inputTask, setInputTask] = useState('');
 
   function deleteTodo(id)  {
     const filterTodo = todos.filter(e => e.id !== id)
@@ -42,6 +43,24 @@ function App() {
    setTodos([...updatedList])
   }
 
+  const handleInputChange = (e) => {
+    setInputTask(e.target.value)
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTodos([{
+      todo: inputTask,
+      completed: false,
+      id:todos.length+1,
+    }, ...todos,  ])
+    setDisplayTodos([{
+      todo: inputTask,
+      completed: false,
+      id: displayTodos.length+1
+    }, ...displayTodos, ]);
+    setInputTask('');
+  }
+
   return (
     <div className="App">
        <div className='container'>
@@ -58,12 +77,16 @@ function App() {
           <i className='fa fa-times' onClick={deleteAll}></i>
         </div>
         </div>
-        <p className='text-center'>{displayTodos.length}</p>
+        <form onSubmit={handleSubmit}>
+            <input type="text" name="todo" className="todo-input" value={inputTask} placeholder="Enter a task..." onChange={handleInputChange} />
+            <button type='submit' className='filter-button'>Add</button>
+           </form>
+        <p className='text-center'>Todos: {displayTodos.length}</p>
         <div className='items'>
         {displayTodos.length > 0 ? displayTodos.map(todo => {
           return <div key={todo.id}>
             <div className='todo-item'>
-            <input type="checkbox" className="todo-input" id={`todo-${todo.id}`} checked={todo.completed} onChange={() => handleChange(todo.id)}/>
+            <input type="checkbox" className="todo-check" id={`todo-${todo.id}`} checked={todo.completed} onChange={() => handleChange(todo.id)}/>
             <label htmlFor={`todo-${todo.id}`} className='item-name'>{todo.todo}</label>
            <i className="delete-icon fa fa-trash" onClick={() => deleteTodo(todo.id)}></i>
            </div>
