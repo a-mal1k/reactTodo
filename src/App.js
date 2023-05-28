@@ -14,17 +14,17 @@ function App() {
   } 
 
   function deleteAll() {
-    let leftTodos = displayTodos.filter(e => e.completed == false); 
+    let leftTodos = displayTodos.filter(e => e.completed === false); 
     setDisplayTodos(leftTodos);
       setTodos(leftTodos)
   }
 
   function filterTodo(target) {
-    if(target == 'completed') {
-      let completedTodos = todos.filter(e => e.completed == true);
+    if(target === 'completed') {
+      let completedTodos = todos.filter(e => e.completed === true);
       setDisplayTodos(completedTodos);
-    } else if(target == 'left') {
-      let leftTodos = todos.filter(e => e.completed == false);
+    } else if(target === 'left') {
+      let leftTodos = todos.filter(e => e.completed === false);
       setDisplayTodos(leftTodos);
     } else {
       setDisplayTodos(todos)
